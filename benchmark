@@ -1,0 +1,31 @@
+#!/bin/bash
+testold() {
+    echo Testing in $1
+
+    docker run -it --rm \
+        --mount "type=bind,source=$(pwd),destination=/root/source,readonly" \
+        -v jdk-version-showdown:/root/.m2 \
+        -w /root/work \
+        $1  \
+        /bin/bash -c "cp -r /root/source/* /root/work/ && mvn -q clean install exec:java -Dexec.mainClass=Main"
+
+    echo
+}
+
+testnew() {
+    echo Testing in $1
+
+    docker run -it --rm \
+        --mount "type=bind,source=$(pwd),destination=/root/source,readonly" \
+        -v jdk-version-showdown:/root/.m2 \
+        -w /root/work \
+        $1  \
+        /bin/bash -c "cp -r /root/source/* /root/work/ && MAVEN_OPTS='--add-modules java.base --add-opens java.base/jdk.internal.util=ALL-UNNAMED --illegal-access=permit' mvn -q clean install exec:java -Dexec.mainClass=Main"
+
+    echo
+}
+
+testold maven:3-openjdk-8
+testnew maven:3-openjdk-11
+testnew maven:3-openjdk-14
+testnew maven:3-openjdk-17
