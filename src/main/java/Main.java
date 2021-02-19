@@ -83,7 +83,7 @@ public class Main {
 
     private static void testBfsSizer(String testName, BloomObjectSizer sizer, Object test, int measureCount) {
         //warmup
-        for (int i = 0; i < measureCount / 10; i++) {
+        for (int i = 0; i < measureCount; i++) {
             sizer.softClear();
             sizer.visit(test);
         }
