@@ -20,7 +20,7 @@ testnew() {
         -v jdk-version-showdown:/root/.m2 \
         -w /root/work \
         $1  \
-        /bin/bash -c "cp -r /root/source/* /root/work/ && MAVEN_OPTS='--add-modules java.base --add-opens java.base/jdk.internal.util=ALL-UNNAMED --illegal-access=permit' mvn -q clean install exec:java -Dexec.mainClass=Main"
+        /bin/bash -c "cp -r /root/source/* /root/work/ && MAVEN_OPTS='--illegal-access=permit' mvn -q clean install exec:java -Dexec.mainClass=Main"
 
     echo
 }
